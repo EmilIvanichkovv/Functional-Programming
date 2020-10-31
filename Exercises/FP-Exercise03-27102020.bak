@@ -1,0 +1,18 @@
+;deffinition
+(define (accumalte op nv a b term next)
+  (if(> a b) nv
+     (op (term a) (acuumulate op nv (next a) b term))))
+
+;example
+(define (id x) X)
+(define (1+ x) (+ x 1))
+
+(define (sum a b)
+  (accumulate + 0 a b id 1+))
+
+;task 1
+(define (!! n)
+  (accumulate * 1
+              (if (odd? n) 1 2) n
+              id
+              (lambda (x) (+x x 2))))
