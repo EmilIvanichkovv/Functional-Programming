@@ -175,3 +175,33 @@ histogram' l1
 -- Задача 11
 distance (x1, y1) (x2, y2) = sqrt ((x1-x2)^2 + (y1-y2)^2)
 maxDistance pts = maximum [ distance p1 p2 | p1<-pts, p2<-pts ]
+
+
+-- Задача 12
+
+mostCommonSymbolInWord lst 
+    | null lst = 0
+    | otherwise = max (length (filter (\ a ->  a == (head lst)) lst)) (mostCommonSymbolInWord (tail lst))
+
+mostCommonSymbolsInWord lst constList
+    | null lst = []
+    | (length (filter (\ a ->  a == (head lst)) lst)) == (mostCommonSymbolInWord constList) = (head lst):(mostCommonSymbolsInWord (tail lst) constList)
+    | otherwise = mostCommonSymbolsInWord (tail lst) constList
+
+maxMostCommonSymbolInWord lst
+    | null lst = 'a'
+    | otherwise = max (head curr) (maxMostCommonSymbolInWord next)
+    where curr = (mostCommonSymbolsInWord lst lst) 
+          next =  (mostCommonSymbolsInWord (tail lst) lst)
+
+specialInsert el lst =  (takeWhile (\ a -> (maxMostCommonSymbolInWord a) < (maxMostCommonSymbolInWord el)) lst) 
+                        ++ [el]
+                        ++ (dropWhile (\ a -> (maxMostCommonSymbolInWord el) > (maxMostCommonSymbolInWord a)) lst)
+
+specialInsertionSort bigList res 
+    | null bigList = res
+    | otherwise =  (specialInsertionSort (tail bigList) (specialInsert (head bigList) res))
+
+specialSort lst = specialInsertionSort lst []
+
+
