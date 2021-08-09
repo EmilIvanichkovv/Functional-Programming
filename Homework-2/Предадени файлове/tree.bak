@@ -165,7 +165,7 @@
 ; Помощни функции за създаване на дърво от стринг
 ; Функция за определяне на идекса на съответана затваряща скоба по зададена отваряща
 (define (closeBracketIndex string index br)
-  (cond [(= br 0) (- index 1)
+  (cond [(= br 0) (- index 1)]
         [(char-open-bracket? (string-ref string index))
          (closeBracketIndex string (1+ index) (1+ br))]
         [(char-close-bracket? (string-ref string index))
