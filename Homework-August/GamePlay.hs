@@ -1,21 +1,22 @@
 module GamePlay where
 
 import Tree
+import ReadWrite
 import Helpers
 
 nextTurn ::Tree String -> Tree String -> String -> IO ()
-nextTurn _ (Node _ EmptyTree EmptyTree) "Da" =  putStrLn "Pozah! Krai na igrata!"
-nextTurn base (Node x EmptyTree EmptyTree) "Ne" = do 
+nextTurn _ (Node _ EmptyTree EmptyTree) "да" =  putStrLn "Познах! Край на играта"
+nextTurn base (Node x EmptyTree EmptyTree) "не" = do 
     newAnimal <- getNewAnimal
     newQuestion <- getQuestionForNewAnimal x newAnimal
     let newTree = treeEnrichment x base (treeWithNewInfo newQuestion newAnimal (Node x EmptyTree EmptyTree) )
-    writeFile "dataBase.txt" (treeToString newTree)
-    putStrLn "Zapisvam!"
+    myWrite "dataBase.txt" (treeToString newTree)
+    putStrLn "Записвам!"
 nextTurn base (Node _ l r) answer 
-    |answer == "Da" = turn base l 
-    |answer == "Ne" = turn base r 
+    |answer == "да" = turn base l 
+    |answer == "не" = turn base r 
 --    |(answer == "Da") && (l == EmptyTree) = putStrLn "ok"
-    |otherwise = putStrLn "Greshen Vhod"
+    |otherwise = putStrLn "Некоректен отговор!"
 
 
 turn ::Tree String -> Tree String -> IO ()
@@ -28,21 +29,21 @@ turn base sTree  = do
 
 newGame  :: IO ()
 newGame = do
-    putStrLn "Iskash li da igrash nova igra?"
-    putStrLn "Da / Ne"
+    putStrLn "Искаш ли да започнеш нова игра?"
+    putStrLn "да / не"
     answer <- getLine
     startAgainOrQuit answer
         where
-            startAgainOrQuit "Da" = play "dataBase.txt"
-            startAgainOrQuit "Ne" = putStrLn "Dovijdane"
+            startAgainOrQuit "да" = play "dataBase.txt"
+            startAgainOrQuit "не" = putStrLn "До скоро!"
             startAgainOrQuit _ = do 
-                putStrLn "Greshen Vhod"
+                putStrLn "Некоректен отговор!"
                 newGame
 play :: String -> IO ()
 play fileName = do
     putStrLn "\n"
-    putStrLn "IGRATA ZAPOCHVA"
-    putStrLn $  "Namisli si jivotno!" ++ "\n"
+    putStrLn "ИГРАТА ЗАПОЧВА"
+    putStrLn $  "Намисли си животно!" ++ "\n"
     s <- (treeFromFile fileName)
     turn s s
     newGame

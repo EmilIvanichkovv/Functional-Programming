@@ -10,20 +10,20 @@ getQuestion sTree = do
 
 getAnswer :: String -> IO String
 getAnswer question  = do 
-    putStrLn "Da / Ne"
+    putStrLn "да / не"
     answer <- getLine
 --    putStrLn "\n"
     return  answer
 
 getNewAnimal :: IO String
 getNewAnimal = do 
-    putStrLn "Predavam se. Koe e jivotnoto" 
+    putStrLn "Предавам се. Кое е животното?" 
     answer <- getLine
     return answer
 
 getQuestionForNewAnimal :: String -> String -> IO String
 getQuestionForNewAnimal oldAnimal newAnimal = do
-    putStrLn $ "Kak moga da razlicha " ++  oldAnimal ++ " ot " ++  newAnimal 
+    putStrLn $ "Как мога да различа " ++  oldAnimal ++ " от " ++  newAnimal 
     newQuestion <- getLine
     return newQuestion
 

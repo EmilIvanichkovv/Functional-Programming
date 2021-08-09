@@ -3,7 +3,7 @@ module Tree where
 import System.IO
 import Data.Char
 import Data.Maybe (isJust, isNothing) 
-import ReadFileFix
+import ReadWrite
 
 -- Tree Struct
 data Tree a = EmptyTree | Node {
