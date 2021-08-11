@@ -2,7 +2,6 @@ module Tree where
 
 import System.IO
 import Data.Char
-import Data.Maybe (isJust, isNothing) 
 import ReadWrite
 
 -- Tree Struct
@@ -23,7 +22,7 @@ makeLeftSubtree:: Int -> Bool -> String -> String
 makeLeftSubtree counter flag (x:xs)
     | flag == True && counter == 0 = ""
     | x == '('                     = x : ( makeLeftSubtree  (counter + 1) True xs )
-    | x == '*' && counter == 0    = "*"
+    | x == '*' && counter == 0     = "*"
     | flag == False                = makeLeftSubtree counter flag xs
     | x == ')'                     = x : ( makeLeftSubtree (counter - 1) flag xs )
     | otherwise                    = x : ( makeLeftSubtree counter flag xs )
@@ -43,13 +42,13 @@ parseTree :: String -> Tree String
 parseTree (x:xs) 
     | x == '*' = EmptyTree
     | x == '(' = (Node (takeValue xs) (parseTree (makeLeftSubtree 0 False xs)) (parseTree (makeRightSubtree 0 False xs)))
-    |otherwise = parseTree xs
+    | otherwise = parseTree xs
 
 -- Takes value for each Node of the Tree
 takeValue :: String -> String
 takeValue "" = ""
 takeValue (x:xs)
-    |x /= '(' && x/=')' && x/='*' =  x : takeValue xs
+    | x /= '(' && x/=')' && x/='*' =  x : takeValue xs
     | otherwise = ""
 
 
@@ -71,6 +70,7 @@ treeFromFile fileName  = do
 --      >>= ioTree
 --      >>= \contents-> return (parseTree contents)    
 
+
 -- Here we enrich the data base
 --  "Bloom" exact leaf - Add new question as root, new and old animal as leaves"
 treeWithNewInfo :: String -> String -> Tree String -> Tree String   
@@ -83,13 +83,3 @@ treeEnrichment curAnimal (Node y l r) newTree
     | y /= curAnimal = (Node y (treeEnrichment curAnimal l newTree) (treeEnrichment curAnimal r newTree))
     | y == curAnimal = newTree
 
--- Test Trees
-start =  (Node "Bozainik" 
-    (Node "Golqmo" 
-        (Node "Slon" EmptyTree EmptyTree ) 
-        (Node "Kotka" EmptyTree EmptyTree ) )
-    (Node "Leti" 
-        (Node "Pchela" EmptyTree EmptyTree ) 
-        (Node "Zlatna ribka" EmptyTree EmptyTree ) ))
-start1 = (Node "Pchela" EmptyTree EmptyTree )
-as = EmptyTree   
