@@ -1,4 +1,4 @@
-module Preparation-Exam-3 where
+
 import Data.Maybe ()
 
 
@@ -209,3 +209,11 @@ eval (Subsraction a b) x = (eval a x) - (eval b x)
 eval (Multiply a b) x = (eval a x) * (eval b x)
 eval (Division a b) x = (eval a x) / (eval b x)
 
+quicksort:: [Int] -> [Int]
+quicksort [] = []
+quicksort (x:xs) = quicksort lesser ++ [x] ++ quicksort greater
+  where 
+    lesser = filter (<x) xs
+    greater = filter (>= x) xs
+
+    
